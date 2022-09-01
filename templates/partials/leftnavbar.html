@@ -1,0 +1,18 @@
+<aside class="menu">
+    <p class="menu-label">Public Data Dashboards</p>
+    <ul class="menu-list" role="menu">
+        <li><a href="/pcv_antibodies">Graphical View</a></li>
+        <li><a href="/trial-dashboard">Clinical Trials Overview</a></li>
+    </ul>
+    <p class="menu-label">Analysis tools</p>
+    <ul class="menu-list" role="menu">
+        <li><a href="/view">Look up a trial</a></li>
+        <li><a href="/export">Immunogenicity Data Export</a></li>
+    </ul>
+    {{if .is_logged_in}}
+        <p class="menu-label">Admin</p>
+        <ul class="menu-list" role="menu">
+            <li><a href="/trial-new">New Trial</a></li>
+        </ul>
+    {{end}}
+</aside>

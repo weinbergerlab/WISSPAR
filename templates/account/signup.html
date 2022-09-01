@@ -1,0 +1,103 @@
+{{define "content"}}
+<div class="columns is-mobile is-centered">
+    <div class="column is-one-third-desktop">
+        <turbo-frame id="account">
+            {{template "errors" .}}
+            <div class="columns is-mobile is-centered pb-6">
+                <p class="title is-3">Sign up with {{.app_name}}</p>
+            </div>
+
+            {{if .otpcodeapproved}}
+                <form
+                    data-action="submit->account#submitSignupForm"
+                    method="POST">
+                <div class="field">
+                    <label class="label">Name</label>
+                    <input data-account-target="name"
+                           data-action="blur->account#validateName"
+                           name="name"
+                           class="input"
+                           type="text"
+                           placeholder="First Last"
+                           aria-label="Name" required>
+
+                </div>
+                <div class="field">
+                    <label class="label">Email</label>
+                    <input data-account-target="email"
+                           data-action="blur->account#validateEmail"
+                           name="email"
+                           pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                           class="input"
+                           type="email"
+                           placeholder="your@email.com"
+                           aria-label="Email" required>
+
+                </div>
+
+                <div class="field">
+                    <label class="label">Password</label>
+                    <input data-account-target="password"
+                           data-action="blur->account#validatePassword"
+                           name="password"
+                           class="input"
+                           type="password"
+                           aria-label="Password" required>
+
+                </div>
+                <div class="field is-grouped">
+                    <div class="control is-expanded">
+                        <button class="button is-primary is-fullwidth" data-turbo-frame="_top"
+                                type="submit">
+                            Sign up
+                        </button>
+                    </div>
+                    <div class="control is-expanded">
+                        <button class="button is-primary is-outlined is-fullwidth"
+                                data-action="click->navigate#goto"
+                                data-goto="/login"
+                                type="button">
+                            Sign in
+                        </button>
+                    </div>
+                </div>
+
+                <hr>
+            </form>
+            {{else}}
+                <form
+                        data-action="submit->account#submitOTPCode"
+                        method="POST">
+                    <div class="field">
+                        <label class="label">One Time Sign Up Code</label>
+                        <input data-account-target="code"
+                               data-action="blur->account#validateCode"
+                               name="code"
+                               class="input"
+                               type="text"
+                               placeholder="Insert Code Here"
+                               aria-label="Code" required>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control is-expanded">
+                            <button class="button is-primary is-fullwidth" data-turbo-frame="_top"
+                                    type="submit">
+                                Get Access
+                            </button>
+                        </div>
+                        <div class="control is-expanded">
+                            <button class="button is-primary is-outlined is-fullwidth"
+                                    data-action="click->navigate#goto"
+                                    data-goto="/login"
+                                    type="button">
+                                Sign in
+                            </button>
+                        </div>
+                    </div>
+                    <hr>
+                </form>
+            {{end}}
+        </turbo-frame>
+    </div>
+</div>
+{{end}}

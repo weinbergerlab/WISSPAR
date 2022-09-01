@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>7962c62d-3503-4068-9f74-95f34425ef61.SCHEMA:local.public</OriginalElement>
+  <nodes />
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="474.0" y="336.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

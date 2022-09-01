@@ -1,0 +1,86 @@
+version: "3.8"
+services:
+  app:
+    image: library/golang:1.16
+    environment:
+      - APP_DRIVER=postgres
+      - APP_DATASOURCE=host=db port=5432 user=local dbname=local password=password sslmode=disable
+      - METABASE_SECRET=<INSTERT_SECRET_HERE>
+      - METABASE_URL=metabase:3000
+      - OTP_SECRET=123-456-789
+      - APP_LOG_LEVEL=info
+    volumes:
+    - ./:/app
+    working_dir: /app
+    depends_on:
+      - db
+      - mailhog
+    ports:
+    - "8023:80"
+    networks:
+      - main
+    command: "go run ./main.go"
+  appbuild:
+    build: .
+    environment:
+      - APP_DRIVER=postgres
+      - APP_DATASOURCE=host=db port=5432 user=local dbname=local password=password sslmode=disable
+      - METABASE_SECRET=<INSTERT_SECRET_HERE>
+      - METABASE_URL=metabase:3000
+    depends_on:
+      - mailhog
+      - db
+    ports:
+      - "8023:80"
+    networks:
+      - main
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=local
+      - POSTGRES_USER=local
+      - POSTGRES_PASSWORD=password
+    ports:
+    - "18034:5432"
+    networks:
+      - main
+  mdb:
+    image: postgres
+    environment:
+      - POSTGRES_DB=local
+      - POSTGRES_USER=local
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "18038:5432"
+    networks:
+      - main
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - main
+  metabase:
+    image: metabase/metabase
+    restart: always
+    environment:
+      MB_DB_TYPE: 'postgres'
+      MB_DB_DBNAME: 'local'
+      MB_DB_PORT: '5432'
+      MB_DB_USER: 'local'
+      MB_DB_HOST: 'mdb'
+      MB_DB_PASS: 'password'
+#      JAVA_TIMEZONE: '${MB_JAVA_TIMEZONE}'
+    ports:
+      # <Port exposed>:<Port running inside container>
+      - '3000:3000'
+    volumes:
+      # Volumes where Metabase data will be persisted
+      - './mb-data:/metabase-data'
+    depends_on:
+      - db
+    networks:
+      - main
+networks:
+  main:

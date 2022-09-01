@@ -1,0 +1,9 @@
+{{define "errors"}}
+{{if .errors}}
+    <div class="notification is-small is-danger is-light">
+        {{ range .errors }}
+        <li>{{.}}</li>
+        {{end}}
+    </div>
+{{end}}
+{{end}}
